@@ -16,12 +16,14 @@ limitations under the License.
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/MicheleCarta/golang-quiz/cmd"
 	"github.com/MicheleCarta/golang-quiz/data"
+	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -29,9 +31,14 @@ func main() {
 	data.OpenDatabase()
 	data.CreateTablePlayers()
 	data.CreateTableQuizScores()
-	data.InsertScore("test", 14.5)
-	data.DisplayAllPlayers()
-	handleRequests()
+	//data.InsertScore("test", 14.5)
+	data.InsertPlayer("user1", 14.5)
+	// Init the mux router
+	router := mux.NewRouter()
+	router.HandleFunc("/players/", GetPlayers).Methods("GET")
+	router.HandleFunc("/", homePage).Methods("GET")
+	fmt.Println("Server at 10000")
+	log.Fatal(http.ListenAndServe(":10000", router))
 }
 
 func homePage(w http.ResponseWriter, r *http.Request) {
@@ -39,8 +46,8 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Endpoint Hit: homePage")
 }
 
-func handleRequests() {
-	http.HandleFunc("/", homePage)
-	http.HandleFunc("/players", service.fetchPlayers())
-	log.Fatal(http.ListenAndServe(":10000", nil))
+func GetPlayers(w http.ResponseWriter, r *http.Request) {
+	var response = data.JsonResponse{Type: "success", Data: data.DisplayAllPlayers()}
+
+	json.NewEncoder(w).Encode(response)
 }

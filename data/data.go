@@ -40,6 +40,7 @@ func CreateTableQuizScores() {
 func CreateTablePlayers() {
 	createTableSQL := `CREATE TABLE IF NOT EXISTS players (
 		"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+		"username" TEXT,
 		"score" DOUBLE
 	  );`
 
