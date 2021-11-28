@@ -19,4 +19,6 @@ import "github.com/MicheleCarta/golang-quiz/cmd"
 
 func main() {
 	cmd.Execute()
+	data.OpenDatabase()
+	//cmd.Execute()
 }
