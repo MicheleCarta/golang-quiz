@@ -23,12 +23,14 @@ func DisplayAllPlayers() {
 	}
 
 	defer row.Close()
-
+	var playersResult []Player
 	for row.Next() {
 		var id int
-		var name string
+		var username string
 		var score float64
-		row.Scan(&id, &name, &score)
-		log.Println("[", id, "] ", name, "—", score)
+		row.Scan(&id, &username, &score)
+		log.Println("[", id, "] ", username, "—", score)
+		playersResult = append(playersResult, Player{id: &id, username: &username, score, &score})
 	}
+	return playersResult
 }

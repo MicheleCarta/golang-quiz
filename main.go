@@ -16,6 +16,10 @@ limitations under the License.
 package main
 
 import (
+	"fmt"
+	"log"
+	"net/http"
+
 	"github.com/MicheleCarta/golang-quiz/cmd"
 	"github.com/MicheleCarta/golang-quiz/data"
 )
@@ -26,5 +30,17 @@ func main() {
 	data.CreateTablePlayers()
 	data.CreateTableQuizScores()
 	data.InsertScore("test", 14.5)
-	data.DisplayAllScores()
+	data.DisplayAllPlayers()
+	handleRequests()
+}
+
+func homePage(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Welcome to the HomePage!")
+	fmt.Println("Endpoint Hit: homePage")
+}
+
+func handleRequests() {
+	http.HandleFunc("/", homePage)
+	http.HandleFunc("/players", service.fetchPlayers())
+	log.Fatal(http.ListenAndServe(":10000", nil))
 }
