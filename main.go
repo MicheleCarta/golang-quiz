@@ -15,10 +15,16 @@ limitations under the License.
 */
 package main
 
-import "github.com/MicheleCarta/golang-quiz/cmd"
+import (
+	"github.com/MicheleCarta/golang-quiz/cmd"
+	"github.com/MicheleCarta/golang-quiz/data"
+)
 
 func main() {
 	cmd.Execute()
 	data.OpenDatabase()
+	data.CreateTable()
+	data.InsertScore("test", 14.5)
+	data.DisplayAllScores()
 	//cmd.Execute()
 }
