@@ -20,11 +20,13 @@ func OpenDatabase() error {
 	return db.Ping()
 }
 
-func CreateTable() {
+func CreateTableQuizScores() {
 	createTableSQL := `CREATE TABLE IF NOT EXISTS quiz_scores (
-		"id_player" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+		"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+		"id_player" INTEGER NOT NULL,
 		"name" TEXT,
-		"score" DOUBLE
+		"score" DOUBLE,
+		CONSTRAINT fk_quiz_scores__id_player FOREIGN KEY (id_player) REFERENCES players(id)
 	  );`
 
 	statement, err := db.Prepare(createTableSQL)
@@ -34,4 +36,18 @@ func CreateTable() {
 
 	statement.Exec()
 	log.Println("quiz_scores table created")
+}
+func CreateTablePlayers() {
+	createTableSQL := `CREATE TABLE IF NOT EXISTS players (
+		"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+		"score" DOUBLE
+	  );`
+
+	statement, err := db.Prepare(createTableSQL)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	statement.Exec()
+	log.Println("players table created")
 }

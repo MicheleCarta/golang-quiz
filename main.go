@@ -23,8 +23,8 @@ import (
 func main() {
 	cmd.Execute()
 	data.OpenDatabase()
-	data.CreateTable()
+	data.CreateTablePlayers()
+	data.CreateTableQuizScores()
 	data.InsertScore("test", 14.5)
 	data.DisplayAllScores()
-	//cmd.Execute()
 }
