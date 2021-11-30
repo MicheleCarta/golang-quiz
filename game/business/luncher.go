@@ -2,10 +2,12 @@ package business
 
 import (
 	"flag"
+	"fmt"
 	"log"
 
 	"github.com/MicheleCarta/golang-quiz/game"
 	"github.com/MicheleCarta/golang-quiz/game/model"
+	"github.com/MicheleCarta/golang-quiz/service"
 )
 
 func StartGame() {
@@ -17,10 +19,15 @@ func StartGame() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	fmt.Printf("Choice the Player \n")
+	for i, pl := range service.FetchPlayers() {
+		fmt.Printf("Select Player - just choice the number %d: %s ?", i, " ", pl.Username, pl.Id)
+	}
+	var id float64
+	fmt.Scanln(&id)
 	player := model.Person{}
 
-	gameService := New(*limit, *quiz, &player)
+	gameService := New(*limit, *quiz, &player, id)
 	_, err = gameService.Run()
 	if err != nil {
 		log.Fatal(err)

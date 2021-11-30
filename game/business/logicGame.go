@@ -16,14 +16,15 @@ type Player interface {
 }
 
 type serviceGame struct {
-	limit  int
-	quiz   game.Quiz
-	player Player
+	limit    int
+	quiz     game.Quiz
+	player   Player
+	idPlayer float64
 }
 
 // New _
-func New(limit int, quiz game.Quiz, player Player) service.Service {
-	return &serviceGame{limit, quiz, player}
+func New(limit int, quiz game.Quiz, player Player, idPlayer float64) service.Service {
+	return &serviceGame{limit, quiz, player, idPlayer}
 }
 func (s *serviceGame) Run() (int, error) {
 	t := time.NewTimer(time.Duration(s.limit) * time.Second)
@@ -66,11 +67,11 @@ func (s *serviceGame) Run() (int, error) {
 
 			if answer.input == prob.Correct {
 				s.player.Print("Correct\n")
-				service.InsertScore(1, prob.Question, true)
+				service.InsertScore(s.idPlayer, prob.Question, true)
 				score++
 			} else {
 				s.player.Print("Wrong\n")
-				service.InsertScore(1, prob.Question, false)
+				service.InsertScore(s.idPlayer, prob.Question, false)
 			}
 		}
 	}
