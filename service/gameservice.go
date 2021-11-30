@@ -22,7 +22,7 @@ func GetPlayer(playerId float64) data.Player {
 
 func InsertScore(idPlayer float64, question string, outcome bool) {
 	log.Println("InsertScore --> ", idPlayer, " ", question, " ", outcome)
-	data.InsertScore(1, "question", false)
+	data.InsertScore(idPlayer, question, outcome)
 }
 
 func GetScoresPlayer(idPlayer float64) []data.Scores {

@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/MicheleCarta/golang-quiz/data"
 	"github.com/MicheleCarta/golang-quiz/game/business"
 	"github.com/MicheleCarta/golang-quiz/service"
 	"github.com/gorilla/mux"
@@ -42,9 +41,4 @@ func GetScoresPlayer(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(service.GetScoresPlayer(playerId))
 
 	}
-
-}
-
-func DisplayAllScores(w http.ResponseWriter, r *http.Request) {
-	data.DisplayAllScores()
 }

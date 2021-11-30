@@ -1,6 +1,8 @@
 package data
 
-import "log"
+import (
+	"log"
+)
 
 func InsertScore(idPlayer float64, question string, outcome bool) {
 	log.Println("InsertScore --> ", idPlayer, " ", question, " ", outcome)
@@ -45,10 +47,11 @@ func GetScoresPlayer(idPlayer float64) []Scores {
 	defer row.Close()
 	var scoresResult []Scores
 	for row.Next() {
+		var id float64
 		var id_player float64
 		var question string
 		var outcome bool
-		row.Scan(&id_player, &question, &outcome)
+		row.Scan(&id, &id_player, &question, &outcome)
 		log.Println("[", id_player, "] ", question, "—", outcome)
 		scoresResult = append(scoresResult, Scores{PlayerId: id_player, Question: question, Outcome: outcome})
 	}
