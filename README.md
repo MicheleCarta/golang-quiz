@@ -48,6 +48,13 @@ Packages description:
 - Add Player : http://localhost:10000/addPlayer/?username=Zena POST
 - Get Player : http://localhost:10000/player/1 GET
 - Start Game : http://localhost:10000/play/ GET
-    - questions are show on terminal where did you build
-    - to answer, just digit it on terminal
 - Score Player : http://localhost:10000/score/1 GET
+
+## Play Usage
+- Add a numbers of Players using : http://localhost:10000/addPlayer/?username=Zena POST
+- Start Game : http://localhost:10000/play/ GET
+    - it will be open on the terminal where did you runned the app
+- Play the Quiz 
+    - Choice a player (just select the number) 
+    - Answer the question digiting 
+    - Enjoy! (I hope)
