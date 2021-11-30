@@ -56,6 +56,7 @@ func init() {
 	router.HandleFunc("/play/", controller.StartGame).Methods("GET")
 	router.HandleFunc("/score/{playerId}", controller.GetScoresPlayer).Methods("GET")
 	router.HandleFunc("/player/{playerId}", controller.GetPlayer).Methods("GET")
+	router.HandleFunc("/players/", controller.GetPlayers).Methods("GET")
 	fmt.Println("Server at 10000")
 	log.Fatal(http.ListenAndServe(":10000", router))
 }

@@ -19,6 +19,11 @@ func AddPlayer(w http.ResponseWriter, r *http.Request) {
 	service.AddPlayer(r.FormValue("username"), 0)
 }
 
+func GetPlayers(w http.ResponseWriter, r *http.Request) {
+	json.NewEncoder(w).Encode(service.FetchPlayers())
+
+}
+
 func StartGame(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Welcome to the best quiz!")
 	business.StartGame()

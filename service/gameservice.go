@@ -1,16 +1,13 @@
 package service
 
 import (
-	"encoding/json"
 	"log"
-	"net/http"
 
 	"github.com/MicheleCarta/golang-quiz/data"
 )
 
-func FetchPlayers(w http.ResponseWriter, r *http.Request) {
-	var response = data.JsonResponse{Type: "success", Data: data.DisplayAllPlayers()}
-	json.NewEncoder(w).Encode(response)
+func FetchPlayers() []data.Player {
+	return data.DisplayAllPlayers()
 }
 func AddPlayer(name string, score float64) {
 	data.InsertPlayer(name, score)
