@@ -1,4 +1,4 @@
-# Golang Quiz multiple choise
+# Golang Quiz multiple choice
 
 Objectives
 - REST API app
