@@ -2,13 +2,15 @@ package data
 
 import "log"
 
-func InsertScore(name string, score float64) {
-	insertScoreSQL := `INSERT INTO quiz_scores(name, score) VALUES (?, ?)`
+func InsertScore(idPlayer float64, question string, outcome bool) {
+	log.Println("InsertScore --> ", idPlayer, " ", question, " ", outcome)
+
+	insertScoreSQL := `INSERT INTO quiz_scores(id_player, question, outcome) VALUES (?, ?, ?)`
 	statement, err := db.Prepare(insertScoreSQL)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	_, err = statement.Exec(name, score)
+	_, err = statement.Exec(idPlayer, question, outcome)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -25,10 +27,30 @@ func DisplayAllScores() {
 	defer row.Close()
 
 	for row.Next() {
-		var playerId int
-		var name string
-		var score float64
-		row.Scan(&playerId, &name, &score)
-		log.Println("[", playerId, "] ", name, "—", score)
+		var id_player float64
+		var question string
+		var outcome int
+		row.Scan(&id_player, &question, &outcome)
+		log.Println("[", id_player, "] ", question, "—", outcome)
 	}
+}
+
+func GetScoresPlayer(idPlayer float64) []Scores {
+	log.Println("playerId is -> ", idPlayer)
+	row, err := db.Query("SELECT * FROM quiz_scores where id_player = $1", idPlayer)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer row.Close()
+	var scoresResult []Scores
+	for row.Next() {
+		var id_player float64
+		var question string
+		var outcome bool
+		row.Scan(&id_player, &question, &outcome)
+		log.Println("[", id_player, "] ", question, "—", outcome)
+		scoresResult = append(scoresResult, Scores{PlayerId: id_player, Question: question, Outcome: outcome})
+	}
+	return scoresResult
 }

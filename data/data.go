@@ -20,22 +20,27 @@ func OpenDatabase() error {
 	return db.Ping()
 }
 
-func CreateTableQuizScores() {
-	createTableSQL := `CREATE TABLE IF NOT EXISTS quiz_scores (
-		"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-		"id_player" INTEGER NOT NULL,
-		"name" TEXT,
-		"score" DOUBLE,
-		CONSTRAINT fk_quiz_scores__id_player FOREIGN KEY (id_player) REFERENCES players(id)
-	  );`
+func DropTableQuizScore() {
+	sql := `DROP TABLE quiz_scores;`
 
-	statement, err := db.Prepare(createTableSQL)
+	statement, err := db.Prepare(sql)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 
 	statement.Exec()
-	log.Println("quiz_scores table created")
+	log.Println("quiz_scores table dropped")
+}
+func DropTablePlayer() {
+	sql := `DROP TABLE players;`
+
+	statement, err := db.Prepare(sql)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	statement.Exec()
+	log.Println("players table dropped")
 }
 func CreateTablePlayers() {
 	createTableSQL := `CREATE TABLE IF NOT EXISTS players (
@@ -51,4 +56,21 @@ func CreateTablePlayers() {
 
 	statement.Exec()
 	log.Println("players table created")
+}
+func CreateTableQuizScores() {
+	createTableSQL := `CREATE TABLE IF NOT EXISTS quiz_scores (
+		"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+		"id_player" INTEGER NOT NULL,
+		"question" TEXT,
+		"outcome" TINYINT UNSIGNED,
+		CONSTRAINT fk_quiz_scores__id_player FOREIGN KEY (id_player) REFERENCES players(id)
+	  );`
+
+	statement, err := db.Prepare(createTableSQL)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	statement.Exec()
+	log.Println("quiz_scores table created")
 }

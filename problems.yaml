@@ -1,5 +1,7 @@
 problems:
     - question: "What is the capital of Italy"
-      answer: "Rome"
+      answer: [ "Rome", "Milan","Turin"]
+      correct: "Rome"
     - question: "10 + 5"
-      answer: "15"
+      answer: [ "5", "14","15"]
+      correct: "15"

@@ -17,7 +17,12 @@ package cmd
 
 import (
 	"fmt"
+	"log"
+	"net/http"
 
+	"github.com/MicheleCarta/golang-quiz/controller"
+	"github.com/MicheleCarta/golang-quiz/data"
+	"github.com/gorilla/mux"
 	"github.com/spf13/cobra"
 )
 
@@ -33,19 +38,25 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("init called")
+
 	},
 }
 
 func init() {
+
 	rootCmd.AddCommand(initCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// initCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// initCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	data.OpenDatabase()
+	data.DropTablePlayer()
+	data.DropTableQuizScore()
+	data.CreateTablePlayers()
+	data.CreateTableQuizScores()
+	router := mux.NewRouter()
+	router.HandleFunc("/", controller.HomePage).Methods("GET")
+	router.HandleFunc("/addPlayer/", controller.AddPlayer).Methods("POST")
+	router.HandleFunc("/play/", controller.StartGame).Methods("GET")
+	router.HandleFunc("/score/{playerId}", controller.GetScoresPlayer).Methods("GET")
+	router.HandleFunc("/player/{playerId}", controller.GetPlayer).Methods("GET")
+	router.HandleFunc("/scores/", controller.DisplayAllScores).Methods("GET")
+	fmt.Println("Server at 10000")
+	log.Fatal(http.ListenAndServe(":10000", router))
 }
