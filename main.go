@@ -21,19 +21,4 @@ import (
 
 func main() {
 	cmd.Execute()
-	/**
-	data.OpenDatabase()
-	data.CreateTablePlayers()
-	data.CreateTableQuizScores()
-	//data.InsertScore("test", 14.5)
-	data.InsertPlayer("user1", 14.5)
-	// Init the mux router
-	router := mux.NewRouter()
-	router.HandleFunc("/players/", getPlayers).Methods("GET")
-	router.HandleFunc("/", homePage).Methods("GET")
-	fmt.Println("Server at 10000")
-	log.Fatal(http.ListenAndServe(":10000", router))
-
-	*/
-
 }

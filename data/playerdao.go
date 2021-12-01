@@ -2,28 +2,28 @@ package data
 
 import "log"
 
-func InsertPlayer(name string, score float64) {
-	insertScoreSQL := `INSERT INTO players(username, score) VALUES (?, ?)`
+func InsertPlayer(name string, score float64, percentage float64) {
+	insertScoreSQL := `INSERT INTO players(username, score,percentage,game_match) VALUES (?, ?, ?, ?)`
 	statement, err := db.Prepare(insertScoreSQL)
 
 	if err != nil {
 		log.Fatalln(err)
 	}
-	_, err = statement.Exec(name, score)
+	_, err = statement.Exec(name, score, percentage, 0)
 
 	if err != nil {
 		log.Fatalln(err)
 	}
 }
 
-func UpdatePlayer(score int, idPlayer float64) {
-	insertScoreSQL := `UPDATE players SET score  = ? where id = ? `
+func UpdatePlayer(score int, idPlayer float64, currentScore int, percentage float64, gameMatch int) {
+	insertScoreSQL := `UPDATE players SET score  = ?, percentage = ?, game_match = ? where id = ? `
 	statement, err := db.Prepare(insertScoreSQL)
 
 	if err != nil {
 		log.Fatalln(err)
 	}
-	_, err = statement.Exec(score, idPlayer)
+	_, err = statement.Exec((score + currentScore), percentage, gameMatch, idPlayer)
 
 	if err != nil {
 		log.Fatalln(err)
@@ -42,8 +42,10 @@ func DisplayAllPlayers() []Player {
 		var id float64
 		var username string
 		var score float64
-		row.Scan(&id, &username, &score)
-		playersResult = append(playersResult, Player{Id: id, Username: username, Score: score})
+		var percentage float64
+		var matches int
+		row.Scan(&id, &username, &score, &percentage, &matches)
+		playersResult = append(playersResult, Player{Id: id, Username: username, Score: score, Percentage: percentage, GameMatch: matches})
 	}
 	return playersResult
 }
@@ -59,8 +61,10 @@ func GetPlayer(idPlayer float64) Player {
 		var id float64
 		var username string
 		var score float64
-		row.Scan(&id, &username, &score)
-		playersResult = Player{Id: id, Username: username, Score: score}
+		var percentage float64
+		var matches int
+		row.Scan(&id, &username, &score, &percentage, &matches)
+		playersResult = Player{Id: id, Username: username, Score: score, Percentage: percentage, GameMatch: matches}
 	}
 	return playersResult
 }

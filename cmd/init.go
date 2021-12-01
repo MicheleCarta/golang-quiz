@@ -46,13 +46,13 @@ func init() {
 
 	rootCmd.AddCommand(initCmd)
 	data.OpenDatabase()
-	data.DropTablePlayer()
+	/**data.DropTablePlayer()
 	data.DropTableQuizScore()
 	data.CreateTablePlayers()
 	data.CreateTableQuizScores()
-	data.InsertPlayer("Guest", 0)
-	data.InsertPlayer("Mix", 0)
-	data.InsertPlayer("Zena", 0)
+	data.InsertPlayer("Guest", 0, 0.0)
+	data.InsertPlayer("Mix", 0, 0.0)
+	data.InsertPlayer("Zena", 0, 0.0)*/
 	router := mux.NewRouter()
 	router.HandleFunc("/", controller.HomePage).Methods("GET")
 	router.HandleFunc("/addPlayer/", controller.AddPlayer).Methods("POST")
@@ -62,4 +62,5 @@ func init() {
 	router.HandleFunc("/players/", controller.GetPlayers).Methods("GET")
 	fmt.Println("Server at 10000")
 	log.Fatal(http.ListenAndServe(":10000", router))
+
 }

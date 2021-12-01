@@ -52,6 +52,7 @@ Packages description:
 
 ## Play Usage
 - Add a numbers of Players using : http://localhost:10000/addPlayer/?username=Zena POST
+    - 3 Players already exist (you can skip)
 - Start Game : http://localhost:10000/play/ GET
     - it will be open on the terminal where did you runned the app
 - Play the Quiz 

@@ -46,7 +46,9 @@ func CreateTablePlayers() {
 	createTableSQL := `CREATE TABLE IF NOT EXISTS players (
 		"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 		"username" TEXT,
-		"score" DOUBLE
+		"score" DOUBLE,
+		"percentage" DOUBLE,
+		"game_match" INTEGER
 	  );`
 
 	statement, err := db.Prepare(createTableSQL)

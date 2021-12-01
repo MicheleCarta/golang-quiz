@@ -16,7 +16,7 @@ func HomePage(w http.ResponseWriter, r *http.Request) {
 }
 
 func AddPlayer(w http.ResponseWriter, r *http.Request) {
-	service.AddPlayer(r.FormValue("username"), 0)
+	service.AddPlayer(r.FormValue("username"), 0, 0.0)
 }
 
 func GetPlayers(w http.ResponseWriter, r *http.Request) {
