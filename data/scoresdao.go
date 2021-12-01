@@ -29,7 +29,6 @@ func DisplayAllScores() {
 		var question string
 		var outcome int
 		row.Scan(&id_player, &question, &outcome)
-		log.Println("[", id_player, "] ", question, "—", outcome)
 	}
 }
 
@@ -47,7 +46,6 @@ func GetScoresPlayer(idPlayer float64) []Scores {
 		var question string
 		var outcome bool
 		row.Scan(&id, &id_player, &question, &outcome)
-		log.Println("[", id_player, "] ", question, "—", outcome)
 		scoresResult = append(scoresResult, Scores{PlayerId: id_player, Question: question, Outcome: outcome})
 	}
 	return scoresResult

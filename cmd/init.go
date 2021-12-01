@@ -46,10 +46,13 @@ func init() {
 
 	rootCmd.AddCommand(initCmd)
 	data.OpenDatabase()
-	/*data.DropTablePlayer()
+	data.DropTablePlayer()
 	data.DropTableQuizScore()
 	data.CreateTablePlayers()
-	data.CreateTableQuizScores()*/
+	data.CreateTableQuizScores()
+	data.InsertPlayer("Guest", 0)
+	data.InsertPlayer("Mix", 0)
+	data.InsertPlayer("Zena", 0)
 	router := mux.NewRouter()
 	router.HandleFunc("/", controller.HomePage).Methods("GET")
 	router.HandleFunc("/addPlayer/", controller.AddPlayer).Methods("POST")

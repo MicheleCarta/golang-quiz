@@ -27,6 +27,7 @@ func GetPlayers(w http.ResponseWriter, r *http.Request) {
 func StartGame(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Welcome to the best quiz!")
 	business.StartGame()
+	//business.PlayAgain()
 	//business.StartAutoGame()
 }
 

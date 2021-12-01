@@ -43,7 +43,6 @@ func DisplayAllPlayers() []Player {
 		var username string
 		var score float64
 		row.Scan(&id, &username, &score)
-		log.Println("[", id, "] ", username, "—", score)
 		playersResult = append(playersResult, Player{Id: id, Username: username, Score: score})
 	}
 	return playersResult
@@ -61,7 +60,6 @@ func GetPlayer(idPlayer float64) Player {
 		var username string
 		var score float64
 		row.Scan(&id, &username, &score)
-		log.Println("[", id, "] ", username, "—", score)
 		playersResult = Player{Id: id, Username: username, Score: score}
 	}
 	return playersResult

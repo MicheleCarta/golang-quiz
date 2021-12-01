@@ -1,8 +1,6 @@
 package service
 
 import (
-	"log"
-
 	"github.com/MicheleCarta/golang-quiz/data"
 )
 
@@ -21,7 +19,6 @@ func GetPlayer(playerId float64) data.Player {
 }
 
 func InsertScore(idPlayer float64, question string, outcome bool) {
-	log.Println("InsertScore --> ", idPlayer, " ", question, " ", outcome)
 	data.InsertScore(idPlayer, question, outcome)
 }
 
