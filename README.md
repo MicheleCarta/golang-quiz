@@ -17,7 +17,7 @@ fileName := flag.String("file", "problems.yaml", "The name of the file with the 
 limit := flag.Int("limit", 100, "The time limit for the quiz in seconds")
 ```
 
-## Anatomy
+## Layers
 Packages description:
 - game
     - model contains the actors involved, the domain
