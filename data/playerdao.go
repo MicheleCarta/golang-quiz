@@ -3,7 +3,6 @@ package data
 import "log"
 
 func InsertPlayer(name string, score float64) {
-	log.Println("InsertPlayer ", name, " ", score)
 	insertScoreSQL := `INSERT INTO players(username, score) VALUES (?, ?)`
 	statement, err := db.Prepare(insertScoreSQL)
 
@@ -15,8 +14,20 @@ func InsertPlayer(name string, score float64) {
 	if err != nil {
 		log.Fatalln(err)
 	}
+}
 
-	log.Println("Inserted player successfully")
+func UpdatePlayer(score int, idPlayer float64) {
+	insertScoreSQL := `UPDATE players SET score  = ? where id = ? `
+	statement, err := db.Prepare(insertScoreSQL)
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+	_, err = statement.Exec(score, idPlayer)
+
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
 
 func DisplayAllPlayers() []Player {

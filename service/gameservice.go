@@ -12,6 +12,9 @@ func FetchPlayers() []data.Player {
 func AddPlayer(name string, score float64) {
 	data.InsertPlayer(name, score)
 }
+func UpdatePlayer(score int, idPlayer float64) {
+	data.UpdatePlayer(score, idPlayer)
+}
 
 func GetPlayer(playerId float64) data.Player {
 	return data.GetPlayer(playerId)

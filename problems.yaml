@@ -2,6 +2,15 @@ problems:
     - question: "What is the capital of Italy"
       answer: [ "Rome", "Milan","Turin"]
       correct: "Rome"
-    - question: "10 + 5"
-      answer: [ "5", "14","15"]
-      correct: "15"
+    - question: "Water Formula"
+      answer: [ "CO2", "H2O","CL"]
+      correct: "H2O"
+    - question: "the highest mountain in the world"
+      answer: [ "Kangchenjunga", "Everest","K2"]
+      correct: "Everest"
+    - question: "What is the currency of Denmark?"
+      answer: [ "BRL", "KL","EU"]
+      correct: "KL"
+    - question: "What was the Turkish city of Istanbul called before 1930?"
+      answer: [ "İzmir", "Constantinople","Bursa"]
+      correct: "Constantinople"

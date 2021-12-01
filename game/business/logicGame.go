@@ -62,7 +62,7 @@ func (s *serviceGame) Run() (int, error) {
 			goto GameOver
 		case answer := <-answerChan:
 			if answer.err != nil {
-				return score, answer.err
+				//return score, answer.err
 			}
 
 			if answer.input == prob.Correct {
@@ -78,6 +78,6 @@ func (s *serviceGame) Run() (int, error) {
 
 GameOver:
 	s.player.Print(fmt.Sprintf("Game over! Your score is %d from %d", score, len(s.quiz.Problems)))
-
+	service.UpdatePlayer(score, s.idPlayer)
 	return score, nil
 }
