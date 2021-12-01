@@ -23,13 +23,17 @@ Packages description:
     - model contains the actors involved, the domain
     - business the business logic and starter game quiz
     - definetions func and struct to parse the yaml file
+
 - data
     - persistence layer and entities for DTO
--service
+
+- service
     - business logic between persistence and presentation layer
--controller
+
+- controller
     - to handle REST call and dispatch to the proper service
--cmd
+
+- cmd
     - cobra definitions 
 
 ## Build and Run
