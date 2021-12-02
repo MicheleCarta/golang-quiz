@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/MicheleCarta/golang-quiz/controller"
 	"github.com/MicheleCarta/golang-quiz/data"
@@ -38,35 +39,61 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("init called")
-
+		ChoiceAction()
 	},
 }
+
+var (
+	router       = mux.NewRouter()
+	isAgain bool = false
+)
 
 func init() {
 
 	rootCmd.AddCommand(initCmd)
 	data.OpenDatabase()
-	/**data.DropTablePlayer()
-	data.DropTableQuizScore()
-	data.CreateTablePlayers()
-	data.CreateTableQuizScores()
-	data.InsertPlayer("Guest", 0, 0.0)
-	data.InsertPlayer("Mix", 0, 0.0)
-	data.InsertPlayer("Zena", 0, 0.0)*/
-	router := mux.NewRouter()
+	ChoiceAction()
+}
+func ChoiceAction() {
+	var play = "p"
+	var run = "r"
+	var initdb = "i"
+	var exit = "e"
+
+repeatAction:
+	fmt.Printf("  Choice your next step: \n  [%s] [%s] [%s] [%s] \n  play \n  run server  \n  init DB \n  exit  ", play, run, initdb, exit)
+	var ans string
+	fmt.Scanln(&ans)
+	if ans == play {
+		isAgain = business.StartGame(false)
+		if isAgain {
+			goto repeatAction
+		}
+	} else if ans == run {
+		initApi()
+	} else if ans == initdb {
+		initDB()
+	} else {
+		os.Exit(3)
+	}
+}
+
+func initApi() {
 	router.HandleFunc("/", controller.HomePage).Methods("GET")
 	router.HandleFunc("/addPlayer/", controller.AddPlayer).Methods("POST")
 	router.HandleFunc("/play/", controller.StartGame).Methods("GET")
 	router.HandleFunc("/score/{playerId}", controller.GetScoresPlayer).Methods("GET")
 	router.HandleFunc("/player/{playerId}", controller.GetPlayer).Methods("GET")
 	router.HandleFunc("/players/", controller.GetPlayers).Methods("GET")
-	fmt.Println("Server at 10000")
-	start()
 	log.Fatal(http.ListenAndServe(":10000", router))
-
+	fmt.Println("Server at 10000")
 }
-
-func start() {
-	business.ChoiceAction()
+func initDB() {
+	data.DropTablePlayer()
+	data.DropTableQuizScore()
+	data.CreateTablePlayers()
+	data.CreateTableQuizScores()
+	data.InsertPlayer("Guest", 0, 0.0)
+	data.InsertPlayer("Mix", 0, 0.0)
+	data.InsertPlayer("Zena", 0, 0.0)
 }

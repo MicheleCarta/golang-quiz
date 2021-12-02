@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"math"
-	"os"
 
 	"github.com/MicheleCarta/golang-quiz/data"
 	"github.com/MicheleCarta/golang-quiz/game"
@@ -19,33 +18,23 @@ var (
 	quiz     *game.Quiz
 )
 
-func ChoiceAction() {
-	var play = "[p]"
-	var exit = "[e]"
-	fmt.Printf(" %s %s  Choice your next step: play or exit ? ", play, exit)
-	var ans string
-	fmt.Scanln(&ans)
-	if ans == play {
-		StartGame(false)
-	} else {
-		os.Exit(3)
-	}
-}
-
-func PlayAgain() {
+func PlayAgain() bool {
 	fmt.Printf("Play Again , y,n ? \n")
 	var ans string
+	var res = false
 	fmt.Scanln(&ans)
 	if ans == "y" {
 		StartGame(true)
+		res = true
 	} else {
 		fmt.Printf("Thanks to Play")
-		os.Exit(3)
+		//os.Exit(3)
 	}
+	return res
 }
 
 /**Select a Player and Play*/
-func StartGame(playAgain bool) {
+func StartGame(playAgain bool) bool {
 	var players []data.Player = service.FetchPlayers()
 	id, _, currentScore, match := choicePlayer(players)
 	player := model.Person{}
@@ -76,8 +65,7 @@ func StartGame(playAgain bool) {
 	fmt.Println("the max and min scores are ", min, max)
 	fmt.Println("You were better than ", percentage, "% of all quizzers ")
 	service.UpdatePlayer(score, id, currentScore, percentage, (match + 1))
-	PlayAgain()
-
+	return PlayAgain()
 }
 
 /** it will consume all the Player*/
