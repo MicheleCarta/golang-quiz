@@ -12,14 +12,41 @@ import (
 	"github.com/MicheleCarta/golang-quiz/service"
 )
 
+var (
+	fileName *string
+	limit    *int
+	quiz     *game.Quiz
+)
+
+func ChoiceAction() {
+	fmt.Printf("Play Again ? y, n \n")
+	var ans string
+	fmt.Scanln(&ans)
+	if ans == "y" {
+		StartGame(true)
+	} else {
+		fmt.Printf("Thanks to Play")
+	}
+}
+
 /**Select a Player and Play*/
-func StartGame() {
+func StartGame(playAgain bool) {
 	var players []data.Player = service.FetchPlayers()
 	id, _, currentScore, match := choicePlayer(players)
 	player := model.Person{}
-
-	quiz, limit, err := initGame()
-	gameService := New(limit, *quiz, &player, id, currentScore)
+	var gameService service.Service
+	if !playAgain {
+		quiz, limit, _ := initGame()
+		gameService = New(*&limit, *quiz, &player, id, currentScore)
+	} else {
+		fileName := "problems.yaml"
+		limit := 100
+		quiz, err := game.New(fileName)
+		if err != nil {
+			log.Fatal(err)
+		}
+		gameService = New(limit, *quiz, &player, id, currentScore)
+	}
 	score, err := gameService.Run()
 	if err != nil {
 		log.Fatal(err)
@@ -34,6 +61,7 @@ func StartGame() {
 	fmt.Println("the max and min scores are ", min, max)
 	fmt.Println("You were better than ", percentage, "% of all quizzers ")
 	service.UpdatePlayer(score, id, currentScore, percentage, (match + 1))
+	ChoiceAction()
 
 }
 
