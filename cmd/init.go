@@ -22,6 +22,7 @@ import (
 
 	"github.com/MicheleCarta/golang-quiz/controller"
 	"github.com/MicheleCarta/golang-quiz/data"
+	"github.com/MicheleCarta/golang-quiz/game/business"
 	"github.com/gorilla/mux"
 	"github.com/spf13/cobra"
 )
@@ -61,6 +62,11 @@ func init() {
 	router.HandleFunc("/player/{playerId}", controller.GetPlayer).Methods("GET")
 	router.HandleFunc("/players/", controller.GetPlayers).Methods("GET")
 	fmt.Println("Server at 10000")
+	start()
 	log.Fatal(http.ListenAndServe(":10000", router))
 
+}
+
+func start() {
+	business.ChoiceAction()
 }

@@ -57,9 +57,10 @@ Packages description:
 ## Play Usage
 - Add a numbers of Players using : http://localhost:10000/addPlayer/?username=Zena POST
     - 3 Players already exist (you can skip)
-- Start Game : http://localhost:10000/play/ GET
-    - it will be open on the terminal where did you runned the app
+- Start Game : At the startup of Application, the system it will ask if you want to play or exit
 - Play the Quiz 
     - Choice a player (just select the number) 
     - Answer the question digiting 
     - Enjoy! (I hope)
+- Check your Rank using #Get Player
+- Check your Score using #Score Player
