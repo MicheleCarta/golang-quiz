@@ -57,7 +57,7 @@ Packages description:
 ## Play Usage
 - Add a numbers of Players using : http://localhost:10000/addPlayer/?username=Zena POST
     - 3 Players already exist (you can skip)
-- Start Game : At the startup of Application, the system it will ask if you want to play or exit
+- Start Game : At the startup of Application, the system it will ask if you want to play or exit, run the server or rebuild DB
 - Play the Quiz 
     - Choice a player (just select the number) 
     - Answer the question digiting 
