@@ -29,7 +29,6 @@ func New(fileName string) (*Quiz, error) {
 	if err != nil {
 		return &Quiz{}, err
 	}
-
 	var quiz Quiz
 	err = yaml.Unmarshal(b, &quiz)
 	if err != nil {

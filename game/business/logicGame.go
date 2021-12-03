@@ -15,19 +15,21 @@ type Player interface {
 	Input() (string, error)
 }
 
-type serviceGame struct {
+type ServiceGame struct {
 	limit        int
 	quiz         game.Quiz
 	player       Player
 	idPlayer     float64
 	currentScore int
+	score        int
+	gameMatch    int
 }
 
 // New _
-func New(limit int, quiz game.Quiz, player Player, idPlayer float64, currentScore int) service.Service {
-	return &serviceGame{limit, quiz, player, idPlayer, currentScore}
+func New(limit int, quiz game.Quiz, player Player, idPlayer float64, currentScore int, gameMatch int) service.Service {
+	return &ServiceGame{limit, quiz, player, idPlayer, currentScore, 0, gameMatch}
 }
-func (s *serviceGame) Run() (int, error) {
+func (s *ServiceGame) Run() (int, error) {
 	t := time.NewTimer(time.Duration(s.limit) * time.Second)
 
 	var score int
@@ -80,4 +82,7 @@ func (s *serviceGame) Run() (int, error) {
 GameOver:
 	s.player.Print(fmt.Sprintf("Game over! Your score is %d from %d", score, len(s.quiz.Problems)))
 	return score, nil
+}
+func RunWeb() {
+
 }

@@ -41,7 +41,7 @@ func StartGame(playAgain bool) bool {
 	var gameService service.Service
 	if !playAgain {
 		quiz, limit, _ := initGame()
-		gameService = New(*&limit, *quiz, &player, id, currentScore)
+		gameService = New(*&limit, *quiz, &player, id, currentScore, match)
 	} else {
 		fileName := "problems.yaml"
 		limit := 100
@@ -49,7 +49,7 @@ func StartGame(playAgain bool) bool {
 		if err != nil {
 			log.Fatal(err)
 		}
-		gameService = New(limit, *quiz, &player, id, currentScore)
+		gameService = New(limit, *quiz, &player, id, currentScore, match)
 	}
 	score, err := gameService.Run()
 	if err != nil {
@@ -60,11 +60,11 @@ func StartGame(playAgain bool) bool {
 		totalScores = append(totalScores, int(ps.Score))
 
 	}
-	_, min, max := findMinAndMax(totalScores)
-	var percentage = math.Round(((float64(score) / findAverage(totalScores) / 100) * 1000))
+	_, min, max := game.FindMinAndMax(totalScores)
+	var percentage = math.Round(((float64(score+currentScore) / game.FindAverage(totalScores) / 100) * 1000))
 	fmt.Println("the max and min scores are ", min, max)
 	fmt.Println("You were better than ", percentage, "% of all quizzers ")
-	service.UpdatePlayer(score, id, currentScore, percentage, (match + 1))
+	service.UpdatePlayer(id, score, currentScore, percentage, (match + 1))
 	return PlayAgain()
 }
 
@@ -78,14 +78,14 @@ func StartAutoGame() {
 	player := model.Person{}
 	for _, pl := range players {
 		fmt.Println(pl.Username, " is the current Player")
-		gameService := New(limit, *quiz, &player, pl.Id, int(pl.Score))
+		gameService := New(limit, *quiz, &player, pl.Id, int(pl.Score), pl.GameMatch)
 		var score = 0
 		score, err = gameService.Run()
 		scores[pl.Username] = score
 		if err != nil {
 			log.Fatal(err)
 		}
-		service.UpdatePlayer(score, pl.Id, int(pl.Score), pl.Percentage, (pl.GameMatch + 1))
+		service.UpdatePlayer(pl.Id, score, int(pl.Score), pl.Percentage, (pl.GameMatch + 1))
 	}
 	for username, score := range scores {
 		fmt.Println("scores ", username, score)
@@ -93,7 +93,7 @@ func StartAutoGame() {
 		playersScore = append(playersScore, username)
 
 	}
-	_, min, max := findMinAndMax(totalScores)
+	_, min, max := game.FindMinAndMax(totalScores)
 	fmt.Println("the max and min scores are ", min, max)
 }
 
@@ -120,40 +120,4 @@ func choicePlayer(players []data.Player) (float64, int, int, int) {
 	score := int(currentPlayer.Score)
 	match := int(currentPlayer.GameMatch)
 	return id, i, score, match
-}
-
-func PercentageChange(old, new int) (delta float64) {
-	diff := float64(new - old)
-	delta = (diff / float64(old)) * 100
-	return
-}
-
-func findMinAndMax(scores []int) (min int, max int, index int) {
-	min = scores[0]
-	max = scores[0]
-	var j = 0
-	for i, value := range scores {
-		if value < min {
-			min = value
-		}
-		if value > max {
-			max = value
-			j = i
-		}
-	}
-	return min, max, j
-}
-
-func findAverage(scores []int) (avg float64) {
-	sum := 0
-	len := len(scores)
-	for i, _ := range scores {
-		sum += (scores[i])
-	}
-	avg = (float64(sum)) / (float64(len))
-	return avg
-}
-
-func removePlayer(s []int, index int) []int {
-	return append(s[:index], s[index+1:]...)
 }

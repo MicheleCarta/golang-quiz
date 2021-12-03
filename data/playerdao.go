@@ -16,7 +16,7 @@ func InsertPlayer(name string, score float64, percentage float64) {
 	}
 }
 
-func UpdatePlayer(score int, idPlayer float64, currentScore int, percentage float64, gameMatch int) {
+func UpdatePlayer(idPlayer float64, score int, currentScore int, percentage float64, gameMatch int) {
 	insertScoreSQL := `UPDATE players SET score  = ?, percentage = ?, game_match = ? where id = ? `
 	statement, err := db.Prepare(insertScoreSQL)
 

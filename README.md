@@ -53,6 +53,11 @@ Packages description:
 - Get Player : http://localhost:10000/player/1 GET
 - Start Game : http://localhost:10000/play/ GET
 - Score Player : http://localhost:10000/score/1 GET
+- Score Player : http://localhost:10000/score/1 GET
+- Score Player : http://localhost:10000/score/1 GET
+- Subscribe Game Quiz  : http://localhost:10000/{playerId} GET
+- Get Problems Player : http://localhost:10000/problems/{playerId} GET
+- Get Problems Player : http://localhost:10000/sendAnswer/{playerId}?answer=your_answer GET
 
 ## Play Usage
 - Add a numbers of Players using : http://localhost:10000/addPlayer/?username=Zena POST

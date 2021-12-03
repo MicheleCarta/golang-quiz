@@ -61,7 +61,7 @@ func ChoiceAction() {
 	var exit = "e"
 
 repeatAction:
-	fmt.Printf("  Choice your next step: \n  [%s] [%s] [%s] [%s] \n  play \n  run server  \n  init DB \n  exit  ", play, run, initdb, exit)
+	fmt.Printf("  Choice your next step:  \n  play \n  run server  \n  init DB \n  exit \n  [%s] [%s] [%s] [%s] ", play, run, initdb, exit)
 	var ans string
 	fmt.Scanln(&ans)
 	if ans == play {
@@ -85,8 +85,12 @@ func initApi() {
 	router.HandleFunc("/score/{playerId}", controller.GetScoresPlayer).Methods("GET")
 	router.HandleFunc("/player/{playerId}", controller.GetPlayer).Methods("GET")
 	router.HandleFunc("/players/", controller.GetPlayers).Methods("GET")
-	log.Fatal(http.ListenAndServe(":10000", router))
+	router.HandleFunc("/problems/", controller.ShowProblems).Methods("GET")
+	router.HandleFunc("/sendAnswer/{playerId}", controller.SendAnswer).Methods("GET")
+	router.HandleFunc("/problems/{playerId}", controller.GetProblems).Methods("GET")
 	fmt.Println("Server at 10000")
+	log.Fatal(http.ListenAndServe(":10000", router))
+
 }
 func initDB() {
 	data.DropTablePlayer()
