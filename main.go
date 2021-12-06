@@ -15,11 +15,8 @@ limitations under the License.
 */
 package main
 
-import (
-	"github.com/MicheleCarta/golang-quiz/cmd"
-)
+import "github.com/MicheleCarta/golang-quiz/cmd"
 
 func main() {
 	cmd.Execute()
-
 }
