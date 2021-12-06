@@ -45,22 +45,22 @@ Packages description:
 - it will drop and create tables from scratch
 
 ## Server port and usage
-- HomePage http://localhost:10000/
-- Port 10000
+- HomePage http://localhost:3000/
+- Port 3000
 
 ## REST descriptions
-- Add Player : http://localhost:10000/addPlayer/?username=Zena POST
-- Get Player : http://localhost:10000/player/1 GET
-- Start Game : http://localhost:10000/play/ GET
-- Score Player : http://localhost:10000/score/1 GET
-- Score Player : http://localhost:10000/score/1 GET
-- Score Player : http://localhost:10000/score/1 GET
-- Subscribe Game Quiz  : http://localhost:10000/{playerId} GET
-- Get Problems Player : http://localhost:10000/problems/{playerId} GET
-- Get Problems Player : http://localhost:10000/sendAnswer/{playerId}?answer=your_answer GET
+- Add Player : http://localhost:3000/addPlayer/?username=Zena POST
+- Get Player : http://localhost:3000/player/{playerId} GET
+- Start Shell Game : http://localhost:3000/play/ GET
+- Score Player : http://localhost:3000/score/{playerId} GET
+- Subscribe Game Quiz  : http://localhost:3000/subscribe/{playerId} GET
+- Get Problems Player : http://localhost:3000/problems/{playerId} GET
+- Send Answer : http://localhost:3000/sendAnswer/{playerId}?answer=your_answer POST
+- Players : http://localhost:3000/players/ GET
+- Problems : http://localhost:3000/problems/ GET
 
 ## Play Usage
-- Add a numbers of Players using : http://localhost:10000/addPlayer/?username=Zena POST
+- Add a numbers of Players using : http://localhost:3000/addPlayer/?username=Zena POST
     - 3 Players already exist (you can skip)
 - Start Game : At the startup of Application, the system it will ask if you want to play or exit, run the server or rebuild DB
 - Play the Quiz 
