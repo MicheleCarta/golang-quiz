@@ -18,7 +18,7 @@ type Message struct {
 	Body string `json:"body"`
 }
 
-func (c *Client) Read() {
+func (c *Client) Read(playerId float64) {
 	defer func() {
 		c.Pool.Unregister <- c
 		c.Conn.Close()
@@ -31,7 +31,13 @@ func (c *Client) Read() {
 			return
 		}
 		message := Message{Type: messageType, Body: string(p)}
-		c.Pool.Broadcast <- message
+
+		if playerId > 0 {
+			c.Pool.Unicast <- message
+		} else {
+			c.Pool.Broadcast <- message
+		}
+
 		fmt.Printf("Message Received: %+v\n", message)
 	}
 }

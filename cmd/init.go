@@ -20,6 +20,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 
@@ -83,6 +84,7 @@ repeatAction:
 
 func initApi() {
 	var r = gin.New()
+	r.Use(CORSMiddleware())
 	r.GET("/home/", func(c *gin.Context) {
 		controller.GetProblems(c)
 	})
@@ -116,11 +118,20 @@ func initApi() {
 	})
 	/**Websocket init */
 	pool := websocket.NewPool()
-	go pool.Start()
 
 	r.GET("/ws", func(c *gin.Context) {
 		fmt.Println("connected! ")
-		serveWs(pool, c)
+		go pool.Start(0)
+		serveWs(pool, c, 0)
+	})
+	r.GET("/ws/:playerId", func(c *gin.Context) {
+		if playerId, err := strconv.ParseFloat(c.Param("playerId"), 64); err == nil {
+			fmt.Println("connected! ")
+			go pool.Start(playerId)
+			serveWs(pool, c, playerId)
+
+		}
+
 	})
 	fmt.Println("Server at 3000")
 
@@ -146,7 +157,11 @@ func initDB() {
 	data.InsertPlayer("Zena", 0, 0.0)
 }
 
-func serveWs(pool *websocket.Pool, c *gin.Context) {
+func serveWs(pool *websocket.Pool, c *gin.Context, playerId float64) {
+	var clientId = 0.0
+	if playerId > 0 {
+		clientId = playerId
+	}
 	fmt.Println("WebSocket Endpoint Hit")
 	conn, err := websocket.Upgrade(c)
 	if err != nil {
@@ -154,11 +169,29 @@ func serveWs(pool *websocket.Pool, c *gin.Context) {
 	}
 
 	client := &websocket.Client{
-		ID:   0,
+		ID:   clientId,
 		Conn: conn,
 		Pool: pool,
 	}
-
+	business.AddWsClientConnection(client)
 	pool.Register <- client
-	client.Read()
+	client.Read(playerId)
+
+}
+
+func CORSMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Credentials", "true")
+		c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+		c.Header("Access-Control-Allow-Methods", "POST,HEAD,PATCH, OPTIONS, GET, PUT")
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(204)
+			return
+		}
+
+		c.Next()
+	}
 }

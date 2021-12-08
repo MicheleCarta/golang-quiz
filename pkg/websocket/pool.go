@@ -19,15 +19,16 @@ func NewPool() *Pool {
 		Unicast:    make(chan Message),
 	}
 }
-func (pool *Pool) Start(id ...float64) {
+func (pool *Pool) Start(id float64) {
 	for {
 		select {
 		case client := <-pool.Register:
 			pool.Clients[client] = true
 			fmt.Println("Register Size of Connection Pool: ", len(pool.Clients), " id ", client.ID)
 			for client, _ := range pool.Clients {
-				fmt.Println("client ", client)
-				client.Conn.WriteJSON(Message{Type: 1, Body: "New User Joined..."})
+				fmt.Println("client ", client.ID)
+				body := fmt.Sprintf("%s%f", "New User Joined... with id ", client.ID)
+				client.Conn.WriteJSON(Message{Type: int(id), Body: body})
 			}
 			break
 		case client := <-pool.Unregister:
@@ -38,20 +39,23 @@ func (pool *Pool) Start(id ...float64) {
 			}
 			break
 		case message := <-pool.Broadcast:
-			fmt.Println("Sending message to all clients in Pool")
 			for client, _ := range pool.Clients {
 				if err := client.Conn.WriteJSON(message); err != nil {
 					fmt.Println(err)
 					return
 				}
+
 			}
 		case message := <-pool.Unicast:
-			fmt.Println("Sending message to all clients in Pool")
+			fmt.Println("Sending Unicast id value ", id)
 			for client, _ := range pool.Clients {
-				if err := client.Conn.WriteJSON(message); err != nil {
-					fmt.Println(err)
-					return
+				if client.ID == id {
+					if err := client.Conn.WriteJSON(message); err != nil {
+						fmt.Println(err)
+						return
+					}
 				}
+
 			}
 
 		}

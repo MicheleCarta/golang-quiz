@@ -21,27 +21,27 @@ func Subscribe(c *gin.Context) {
 func AddPlayer(c *gin.Context) {
 	service.AddPlayer(c.Query("username"), 0, 0.0)
 	c.JSON(200, gin.H{
-		"Player added  ": c.Query("username"),
+		"Player added": c.Query("username"),
 	})
 }
 
 func GetPlayers(c *gin.Context) {
 	c.JSON(200, gin.H{
-		"Players  ": service.FetchPlayers(),
+		"Players": service.FetchPlayers(),
 	})
 }
 
 func StartGame(c *gin.Context) {
 	res := business.StartGame(false)
 	c.JSON(200, gin.H{
-		"Quist Started  ": res,
+		"Quist Started": res,
 	})
 }
 
 func GetPlayer(c *gin.Context) {
 	if playerId, err := strconv.ParseFloat(c.Param("playerId"), 64); err == nil {
 		c.JSON(200, gin.H{
-			"score ": service.GetPlayer(playerId),
+			"player": service.GetPlayer(playerId),
 		})
 	}
 }
@@ -49,21 +49,21 @@ func GetPlayer(c *gin.Context) {
 func GetScoresPlayer(c *gin.Context) {
 	if playerId, err := strconv.ParseFloat(c.Param("playerId"), 64); err == nil {
 		c.JSON(200, gin.H{
-			"score ": service.GetScoresPlayer(playerId),
+			"score": service.GetScoresPlayer(playerId),
 		})
 	}
 }
 
 func ShowProblems(c *gin.Context) {
 	c.JSON(200, gin.H{
-		"Problems is ": service.GetQuizProblems("problems.yaml").Problems,
+		"Problems": service.GetQuizProblems("problems.yaml").Problems,
 	})
 }
 func GetProblems(c *gin.Context) {
 	if playerId, err := strconv.ParseFloat(c.Param("playerId"), 64); err == nil {
 		var s game.Quiz = business.CurrentGame(playerId)
 		c.JSON(200, gin.H{
-			"message": s.Problems,
+			"Problems": s.Problems[0],
 		})
 	}
 }
@@ -71,7 +71,7 @@ func GetProblems(c *gin.Context) {
 func SendAnswer(c *gin.Context) {
 	if playerId, err := strconv.ParseFloat(c.Param("playerId"), 64); err == nil {
 		c.JSON(200, gin.H{
-			"answer is ": business.Round(playerId, c.Query("answer")),
+			"answer": business.Round(playerId, c.Query("answer")),
 		})
 
 	}

@@ -22,12 +22,12 @@ func Upgrade(c *gin.Context) (*websocket.Conn, error) {
 		log.Println(err)
 		return nil, err
 	}
-
 	return conn, nil
 }
 
 func Reader(conn *websocket.Conn) {
 	for {
+		fmt.Println("Reader .......... ")
 		messageType, p, err := conn.ReadMessage()
 		if err != nil {
 			log.Println(err)
@@ -45,7 +45,7 @@ func Reader(conn *websocket.Conn) {
 
 func Writer(conn *websocket.Conn) {
 	for {
-		fmt.Println("Sending")
+		fmt.Println("Writer .......... ")
 		messageType, r, err := conn.NextReader()
 		if err != nil {
 			fmt.Println(err)
