@@ -59,6 +59,9 @@ Packages description:
 - Players : http://localhost:3000/players/ GET
 - Problems : http://localhost:3000/problems/ GET
 
+## Websocket
+- Subscribe Game and Websocket: ws://127.0.0.1:3000/ws/{playerId}
+
 ## Play Usage
 - Add a numbers of Players using : http://localhost:3000/addPlayer/?username=Zena POST
     - 3 Players already exist (you can skip)
